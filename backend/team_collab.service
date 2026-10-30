@@ -1,0 +1,18 @@
+[Unit]
+Description=Team Collaboration SaaS Flask Backend Service
+After=network.target mysql.service
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/team_collab/backend
+Environment="PATH=/var/www/team_collab/venv/bin"
+EnvironmentFile=/var/www/team_collab/backend/.env
+ExecStart=/var/www/team_collab/venv/bin/gunicorn -c gunicorn_config.py "app:create_app()"
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/team_collab/backend_access.log
+StandardError=append:/var/log/team_collab/backend_error.log
+
+[Install]
+WantedBy=multi-user.target
